@@ -1,0 +1,95 @@
+#!/bin/bash
+
+VERSION=1.0
+
+# OSM DATA SOURCE
+#################
+OSM_LATEST_FILE_NAME=hamburg-latest.osm.pbf
+OSM_LATEST_FILE_DOWNLOAD_URL=https://download.geofabrik.de/europe/germany/${OSM_LATEST_FILE_NAME}
+
+# DOCKER CONFIG
+###############
+DOCKER_BUILD_TAG=osmtilemaker:$VERSION
+DOCKER_BUILD_ARG_INSTALLWORKDIR=/var/install
+DOCKER_NAME_SUFFIX=_v${VERSION}
+DOCKER_NAME=osmtilemaker${DOCKER_NAME_SUFFIX}
+DOCKER_HOST_PORT_TO_PUBLISH=5435
+
+# HOST/DOCKER SHARED VOLUMES 
+############################
+
+# SOME SHARED VOLUMES NAMES
+WORKING_DIR_NAME=working_dir
+OSM_FILE_DIR_NAME=osm_data
+OSM2PGSQL_FLATNODE_DIR_NAME=osm_nodes
+TILES_DIR_NAME=tiles
+LOG_DIR_NAME=log
+# HOST_VOLUMES_PATH
+HOST_VOLUMES_BASE_DIR=${HOME}/docker_mounted_volumes/$DOCKER_NAME-docker-volumes # default base directory on your host machine where shared docker volumes must be localized
+HOSTPATH_WORKING_DIR=$HOST_VOLUMES_BASE_DIR/$WORKING_DIR_NAME
+HOSTPATH_OSM_FILE_DIR=$HOST_VOLUMES_BASE_DIR/$OSM_FILE_DIR_NAME
+HOSTPATH_PG_DATA_DIR=$HOST_VOLUMES_BASE_DIR/pg_data
+HOSTPATH_OSM2PGSQL_FLATNODE_DIR=$HOST_VOLUMES_BASE_DIR/$OSM2PGSQL_FLATNODE_DIR_NAME
+HOSTPATH_TILES_DIR=$HOST_VOLUMES_BASE_DIR/$TILES_DIR_NAME
+# DOCKER_VOLUMES_PATH
+DOCKER_VOLUMES_BASE_DIR=/docker_mounted_volumes # base directory inside your docker container where shared docker volumes must be localized
+DOCKERPATH_WORKING_DIR=$DOCKER_VOLUMES_BASE_DIR/$WORKING_DIR_NAME
+DOCKERPATH_SOURCE_DIR=$DOCKER_VOLUMES_BASE_DIR/sources
+DOCKERPATH_OSM_FILE_DIR=$DOCKER_VOLUMES_BASE_DIR/$OSM_FILE_DIR_NAME
+DOCKERPATH_OSM2PGSQL_FLATNODE_DIR=$DOCKER_VOLUMES_BASE_DIR/$OSM2PGSQL_FLATNODE_DIR_NAME
+DOCKERPATH_TILES_DIR=$DOCKER_VOLUMES_BASE_DIR/$TILES_DIR_NAME
+
+# POSTGRESQL CONFIG
+###################
+
+export PGCLIENTENCODING=UTF8
+## PASSWORD
+DBPG_USER_POSTGRES_PWD_DEFAULT=6myXVKF22vgJUv5fx
+DBPG_USER_POSTGRES_PWD=$DBPG_USER_POSTGRES_PWD_DEFAULT
+## USERS
+DBPG_USER_OSMTILEMAKER_USERNAME=osmtilemaker
+## DBPG INSTANCE
+DBPG_HOST=localhost
+DBPG_DATABASE_NAME=osmtilemaker
+
+# OSM2PGSQL CONFIG
+##################
+
+OSM2PGSQL_OPTS="\
+--username $DBPG_USER_OSMTILEMAKER_USERNAME --database $DBPG_DATABASE_NAME \
+--hstore  \
+--style $DOCKERPATH_WORKING_DIR/openstreetmap-carto/openstreetmap-carto.style \
+--tag-transform-script $DOCKERPATH_WORKING_DIR/openstreetmap-carto/openstreetmap-carto.lua \
+--slim --drop \
+--flat-nodes $DOCKERPATH_OSM2PGSQL_FLATNODE_DIR/nodes.cache \
+--cache 4000 \
+--number-processes 8 \
+--multi-geometry "
+
+# RENDERING CONFIG
+###############
+
+RENDERING_THREADS=12 
+
+## ZOOMS (FROM 1 TO 18)
+MINZOOM=1
+MAXZOOM=5
+
+## BBOX 
+# - you can get your bbox limits graphically from http://tools.geofabrik.de/calc/ or http://harrywood.co.uk/maps/uixapi/xapi.html
+# - you can estimate number and size of generated tiles thanks to http://tools.geofabrik.de/calc/
+
+## Hamburg
+#BBOX_NAME='Hamburg'
+#MIN_LONG=9.8086
+#MIN_LAT=53.419
+#MAX_LONG=10.2096
+#MAX_LAT=53.667
+
+## World extent
+BBOX_NAME='World'
+MIN_LONG=-180.0
+MIN_LAT=-90.0
+MAX_LONG=180.0
+MAX_LAT=90.0
+BBOX="$MIN_LONG $MIN_LAT $MAX_LONG $MAX_LAT"
