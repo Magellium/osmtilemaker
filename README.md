@@ -246,7 +246,4 @@ In `./conf/config` file
 
 In `./conf/postgres-settings.sh` file: maybe use [Paul’s Blog - New Server PostgreSQL Tuning](http://www.paulnorman.ca/blog/2014/11/new-server-postgresql-tuning/) recommendations.
 
-About filesystem settings: using a ZFS filesystem for the hard disk hosting PostgreSQL database could speed up the import (see [Paul’s Blog - ZFS Settings for Osm2pgsql](http://www.paulnorman.ca/blog/2014/11/zfs-settings-for-osm2pgsql/)). Recommended parameters are:
-
-* recordsize of 8K (use `ashift=8` when running `zpool create` command)
-* enable lz4 compression (run `zfs set compression=lz4 $your_pool`)
+About filesystem settings: using a ZFS filesystem for the hard disk hosting PostgreSQL database could speed up the import (see [Paul’s Blog - ZFS Settings for Osm2pgsql](http://www.paulnorman.ca/blog/2014/11/zfs-settings-for-osm2pgsql/)). Recommended parameters are recordsize of 8K (run `zfs set recordsize=8k $your_pool`) and lz4 compression (run `zfs set compression=lz4 $your_pool`)
