@@ -135,7 +135,7 @@ class RenderThread:
                     try:
                         self.render_tile(tile_uri, x, y, z)
                     except:
-                        logger.error("Exception generating file "+name)
+                        logger.error('Exception generating tile: '+ str(tile_uri)+', '+ str(z)+', '+ str(x)+', '+ str(y))
                         self.q.task_done()
                         break
                 empty= ''
