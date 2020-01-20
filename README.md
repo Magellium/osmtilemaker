@@ -166,7 +166,7 @@ Get shapefiles (processed coastline data as shapefile derived from OSM data is a
 $DOCKERPATH_WORKING_DIR/openstreetmap-carto/scripts/get-shapefiles.py
 ```
 
-User postgres must be owner of your $TILES_DIR
+User postgres must be owner of your `$TILES_DIR`
 
 ```bash
 chown postgres:postgres $DOCKERPATH_TILES_DIR
@@ -205,7 +205,7 @@ sudo docker rm $DOCKER_NAME
 
 Requirements: you must have firefox and a web server running on localhost.
 
-Move your tiles to your local webserver and then open ol-example.html.
+Move your tiles to your local webserver and then open `ol-example.html`.
 
 ```bash
 sudo mv $HOSTPATH_TILES_DIR /var/www/html/local-tiles
@@ -240,9 +240,9 @@ In `./conf/config` file
   * `--flat-nodes`: "a binary file is used as a database of node locations". Useful to reduce database size and specify a file location (you can host it on a different hard disk).
   * `--cache`: "The rule of thumb in slim mode is as follows: use the size of the PBF file you are trying to import or about 75% of RAM, whatever is smaller. Make sure there is enough RAM left for PostgreSQL. It needs at least the amount of shared_buffers given in its configuration."(from [osm2pgsql usage docs](https://github.com/openstreetmap/osm2pgsql/blob/master/docs/usage.md)). Unit is MB.
   * `--number-processes`: [osm2pgsql usage docs](https://github.com/openstreetmap/osm2pgsql/blob/master/docs/usage.md) offical doc says "This should typically be set to the number of CPU threads, but gains in speed are minimal past 8 threads.". So we use as many threads as CPU cores we have (or more if your processor is hyperthreaded, `lscpu` command could be useful to know more about your processor)
-  * `--disable-parallel-indexing`: not used in default config file, but could be usefule ("disables the clustering and indexing of all tables in parallel. This reduces disk and RAM requirements during the import, but causes the last stages to take significantly longer.")
+  * `--disable-parallel-indexing`: not used in default config file, but could be useful ("disables the clustering and indexing of all tables in parallel. This reduces disk and RAM requirements during the import, but causes the last stages to take significantly longer.")
 * `RENDERING_THREADS`: "rendering threads to spawn in gen-tile.py, should be roughly equal to number of threads available" says original [generate_tiles.py](https://github.com/openstreetmap/mapnik-stylesheets/blob/master/generate_tiles.py) tiles rendering script
 
 In `./conf/postgres-settings.sh` file: maybe use [Paul’s Blog - New Server PostgreSQL Tuning](http://www.paulnorman.ca/blog/2014/11/new-server-postgresql-tuning/) recommendations.
 
-About filesystem settings: using a ZFS filesystem for the hard disk hosting PostgreSQL database could speed up the import (see [Paul’s Blog - ZFS Settings for Osm2pgsql](http://www.paulnorman.ca/blog/2014/11/zfs-settings-for-osm2pgsql/)). Recommended parameters are recordsize of 8K (run `zfs set recordsize=8k $your_pool`) and lz4 compression (run `zfs set compression=lz4 $your_pool`)
+About filesystem settings: using a ZFS filesystem for the hard disk hosting PostgreSQL database could speed up the import and reduce disk space usage (see [Paul’s Blog - ZFS Settings for Osm2pgsql](http://www.paulnorman.ca/blog/2014/11/zfs-settings-for-osm2pgsql/)). Recommended parameters are recordsize of 8K (run `zfs set recordsize=8k $your_pool`) and lz4 compression (run `zfs set compression=lz4 $your_pool`)
