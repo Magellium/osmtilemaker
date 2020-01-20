@@ -25,12 +25,12 @@ For a full planet import, you can check
 * [Wiki OSM - Osm2pgsql/benchmarks](https://wiki.openstreetmap.org/wiki/Osm2pgsql/benchmarks)
 * [Frederik Ramm - Optimising theMapnik RenderingToolchain2.0](https://www.geofabrik.de/media/2012-09-08-osm2pgsql-performance.pdf)
 
-Maybe the main constraint is your disk space as you have to host (size given for a full planet import in january 2020):
+Maybe the main constraint is your disk space as you have to host (size given for a full planet import in january 2020 with default config and a ZFS filesystem with `compression=lz4` and `recordsize=8k` for database):
 
-* [49 GB] - planet.osm.bf file
-* [X GB] - PostgreSQL/PostGIS OSM database peak usage (before dropping --slim data) - imported with osm2pgsql
-* [X GB] - osm2pgsql nodes cache
-* [X GB] - tiles directory
+* [49 GB] - planet.osm.pbf file
+* [460 GB] - PostgreSQL/PostGIS OSM database peak usage (imported with osm2pgsql). End size: 185 GB.
+* [53 GB] - osm2pgsql nodes cache
+* tiles directory: [Geofabrik - Tile Calculator](http://tools.geofabrik.de/calc/) helps to estimate tiles size considering your bbox and zoom levels
 
 `.conf/config` file allows you to host these resources under different base directories (for example if you want to mount multiple hard disks). Check these variables: `$HOSTPATH_OSM_FILE_DIR`, `$HOSTPATH_PG_DATA_DIR`, `$HOSTPATH_OSM2PGSQL_FLATNODE_DIR`, `$HOSTPATH_TILES_DIR`. Having an SSD disk especially for the database will fast up the process.
 
@@ -53,7 +53,6 @@ cd osmtilemaker/
 Config files are available under `./conf/` directory:
 
 * `./conf/config`: main config file (examples: choose your .osm.pbf file, custom your area of interest, working directories location, database name ...)
-
 * `./conf/postgres-settings.sh`: bash script to update postgresql.conf file with desired values
 
 Because some osm2pgsql or PostgreSQL config variables impact performance: check  `About performance` section below to custom them to suit your needs.
