@@ -206,7 +206,7 @@ sudo docker rm $DOCKER_NAME
 
 Requirements: you must have firefox and a web server running on localhost.
 
-Move your tiles to your local webserver and then open `ol-example.html`.
+Move your tiles to your local webserver and then open `ol-example.html` (you could also use a symlink to avoid moving your tiles).
 
 ```bash
 sudo mv $HOSTPATH_TILES_DIR /var/www/html/local-tiles
