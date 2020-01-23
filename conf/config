@@ -61,10 +61,11 @@ OSM2PGSQL_OPTS="\
 --style $DOCKERPATH_WORKING_DIR/openstreetmap-carto/openstreetmap-carto.style \
 --tag-transform-script $DOCKERPATH_WORKING_DIR/openstreetmap-carto/openstreetmap-carto.lua \
 --slim --drop \
---flat-nodes $DOCKERPATH_OSM2PGSQL_FLATNODE_DIR/nodes.cache \
 --cache 4000 \
 --number-processes 8 \
 --multi-geometry "
+# uncomment next line if you want to use --flat-nodes (only for huge extracts like planet or europe, see README.md)
+# OSM2PGSQL_OPTS="$OSM2PGSQL_OPTS --flat-nodes $DOCKERPATH_OSM2PGSQL_FLATNODE_DIR/nodes.cache"
 
 # RENDERING CONFIG
 ###############
