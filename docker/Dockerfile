@@ -89,7 +89,9 @@ RUN fc-cache
 ###
 
 RUN \
-    git clone https://github.com/gravitystorm/openstreetmap-carto
+    git clone https://github.com/gravitystorm/openstreetmap-carto && \
+    cd openstreetmap-carto && \
+    git checkout v5.1.0
 
 ###
 # Clean
