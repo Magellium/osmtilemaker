@@ -81,6 +81,7 @@ sudo docker build \
 --build-arg INSTALLWORKDIR=$DOCKER_BUILD_ARG_INSTALLWORKDIR \
 docker
 ```
+Before running next command, be aware of issue [#2](https://github.com/Magellium/osmtilemaker/issues/2) about `the --shm-size` parameter
 
 ```bash
 sudo docker run -d \
