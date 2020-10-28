@@ -248,3 +248,25 @@ In `./conf/config` file
 In `./conf/postgres-settings.sh` file: maybe use [Paul’s Blog - New Server PostgreSQL Tuning](http://www.paulnorman.ca/blog/2014/11/new-server-postgresql-tuning/) recommendations.
 
 About filesystem settings: using a ZFS filesystem for the hard disk hosting PostgreSQL database could speed up the import and reduce disk space usage (see [Paul’s Blog - ZFS Settings for Osm2pgsql](http://www.paulnorman.ca/blog/2014/11/zfs-settings-for-osm2pgsql/)). Recommended parameters are recordsize of 8K (run `zfs set recordsize=8k $your_pool`) and lz4 compression (run `zfs set compression=lz4 $your_pool`)
+
+### Benchmarks
+
+Note: feel free to add your own benchmark below, even with few details!
+
+#### Full planet
+
+##### Hardware and software configuration + osm2pgsql benchmarks
+
+Available at [OSM Wiki - Osm2pgsql/benchmarks - Desktop Debian 9, 4 cores i5-6500 CPU @ 3.20GHz/32GB RAM, 1TB+500GB SSD (hstore slim drop flat-nodes and ZFS filesystem)](https://wiki.openstreetmap.org/wiki/Osm2pgsql/benchmarks#Desktop_Debian_9.2C_4_cores_i5-6500_CPU_.40_3.20GHz.2F32GB_RAM.2C_1TB.2B500GB_SSD_.28hstore_slim_drop_flat-nodes_and_ZFS_filesystem.29)
+
+##### Tiles generation from level 1 to 12
+
+Total: 415 hours ; 17,3 days ; ~ 13 957 698 tiles ; average speed : 9,34 tiles/sec ; 24,8 GB
+Detail:
+  * from level 1 to 10 : 40 hours ;  1,7 days ; ~ 850 000 tiles ; vitesse moyenne : 5,9 tiles/sec ; 870 MB
+  * level 11 : 81 hours ; 3,4 days ; ~ 2 623 488 tiles ; average speed : 9 tiles/sec ; 1,9 GB
+  * level 12 : 294 hours ; 12,3 days ; ~ 10 484 210 tiles ; average speed : 9,9 tiles/sec ; 22 GB
+  
+##### Speed by longitude from level 11 to 13
+
+![tiles-production-speed-by-longitude.png](tiles-production-speed-by-longitude.png)
