@@ -81,7 +81,7 @@ sudo docker build \
 --build-arg INSTALLWORKDIR=$DOCKER_BUILD_ARG_INSTALLWORKDIR \
 docker
 ```
-Before running next command, be aware of issue [#2](https://github.com/Magellium/osmtilemaker/issues/2) about `the --shm-size` parameter
+Before running next command, be aware of issue [#2](https://github.com/Magellium/osmtilemaker/issues/2) about the `--shm-size` parameter
 
 ```bash
 sudo docker run -d \
@@ -259,13 +259,14 @@ Note: feel free to add your own benchmark below, even with few details!
 
 Available at [OSM Wiki - Osm2pgsql/benchmarks - Desktop Debian 9, 4 cores i5-6500 CPU @ 3.20GHz/32GB RAM, 1TB+500GB SSD (hstore slim drop flat-nodes and ZFS filesystem)](https://wiki.openstreetmap.org/wiki/Osm2pgsql/benchmarks#Desktop_Debian_9.2C_4_cores_i5-6500_CPU_.40_3.20GHz.2F32GB_RAM.2C_1TB.2B500GB_SSD_.28hstore_slim_drop_flat-nodes_and_ZFS_filesystem.29)
 
-##### Tiles generation from level 1 to 12
+##### Tiles production from level 1 to 12
 
 Total: 415 hours ; 17,3 days ; ~ 13 957 698 tiles ; average speed : 9,34 tiles/sec ; 24,8 GB
-Detail:
-  * from level 1 to 10 : 40 hours ;  1,7 days ; ~ 850 000 tiles ; vitesse moyenne : 5,9 tiles/sec ; 870 MB
-  * level 11 : 81 hours ; 3,4 days ; ~ 2 623 488 tiles ; average speed : 9 tiles/sec ; 1,9 GB
-  * level 12 : 294 hours ; 12,3 days ; ~ 10 484 210 tiles ; average speed : 9,9 tiles/sec ; 22 GB
+
+Details:
+* from level 1 to 10 : 40 hours ;  1,7 days ; ~ 850 000 tiles ; vitesse moyenne : 5,9 tiles/sec ; 870 MB
+* level 11 : 81 hours ; 3,4 days ; ~ 2 623 488 tiles ; average speed : 9 tiles/sec ; 1,9 GB
+* level 12 : 294 hours ; 12,3 days ; ~ 10 484 210 tiles ; average speed : 9,9 tiles/sec ; 22 GB
   
 ##### Speed by longitude from level 11 to 13
 
