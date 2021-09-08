@@ -81,6 +81,7 @@ sudo docker build \
 --build-arg INSTALLWORKDIR=$DOCKER_BUILD_ARG_INSTALLWORKDIR \
 docker
 ```
+
 Before running next command, be aware of issue [#2](https://github.com/Magellium/osmtilemaker/issues/2) about the `--shm-size` parameter
 
 ```bash
@@ -149,6 +150,8 @@ cd $DOCKERPATH_WORKING_DIR/openstreetmap-carto/ &&  carto --quiet project.mml >o
 
 ### Osm2pgsql import
 
+Before running next command, be aware that osm2pgsql `--flat-nodes` option is not used by default in `./conf/config` file (see `$OSM2PGSQL_OPTS` variable to activate it).
+
 ```bash
 # prepare command
 OSM2PGSQL_CMD="osm2pgsql $OSM2PGSQL_OPTS $DOCKERPATH_OSM_FILE_DIR/$OSM_LATEST_FILE_NAME"
@@ -198,7 +201,7 @@ Just in case you need to restart from a fresh docker instance
 ```bash
 sudo docker stop $DOCKER_NAME
 sudo docker rm $DOCKER_NAME
-# You must remove $HOST_VOLUMES_BASE_DIR/$PG_DATA_DIR/ by yourself (don't use variables in commands to avoid errors)
+# You must remove $HOST_VOLUMES_BASE_DIR by yourself (don't use variables in commands to avoid errors)
 ```
 
 ## Preview with OpenLayers
