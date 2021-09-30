@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# adapted from https://svn.openstreetmap.org/applications/rendering/mapnik/generate_tiles.py
+# adapted from https://github.com/openstreetmap/mapnik-stylesheets/blob/master/generate_tiles.py
 
 import argparse
 import logging
@@ -8,7 +8,7 @@ import os
 import sys
 import time
 import threading
-from Queue import Queue
+from queue import Queue
 from math import pi,cos,sin,log,exp,atan
 from subprocess import call
 try:
@@ -135,6 +135,7 @@ class RenderThread:
                     try:
                         self.render_tile(tile_uri, x, y, z)
                     except:
+                        logging.exception("message")
                         logger.error('Exception generating tile: '+ str(tile_uri)+', '+ str(z)+', '+ str(x)+', '+ str(y))
                         self.q.task_done()
                         break
@@ -148,6 +149,7 @@ class RenderThread:
                 logger.info(name+': '+ str(z)+', '+ str(x)+', '+ str(y)+', '+exists+empty)
                 self.q.task_done()
         except:
+            logging("message")
             logger.critical('Uncaught exception in thread')
             os._exit(1)
 

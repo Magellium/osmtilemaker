@@ -38,8 +38,8 @@ It seems that a good start is having 32GB RAM with 6 to 8 cores CPU.
 
 ### Software
 
-* GNU/Linux Debian based system (tested with Debian 9 and Ubuntu 18.04).
-* docker-ce version >=19 (tested with docker-ce 19.03.5), [official install doc](https://docs.docker.com/install/linux/docker-ce/debian/)
+* GNU/Linux Debian based system (tested with Debian 9 and Ubuntu 18.04 and 20.04).
+* docker-ce version >=19 (tested with docker-ce 19.03.5 and 20.10.8), [official install doc](https://docs.docker.com/install/linux/docker-ce/debian/)
 
 ## Get source code and adapt configuration
 
@@ -168,7 +168,7 @@ tail -f -n 200 $DOCKERPATH_WORKING_DIR/osm2pgsql.log
 Get shapefiles (processed coastline data as shapefile derived from OSM data is also needed for rendering usable map, more information at [Wiki OSM - Coastline error checker](https://wiki.openstreetmap.org/wiki/Coastline_error_checker))
 
 ```bash
-$DOCKERPATH_WORKING_DIR/openstreetmap-carto/scripts/get-shapefiles.py
+$DOCKERPATH_WORKING_DIR/openstreetmap-carto/scripts/get-external-data.py -d $DBPG_DATABASE_NAME -U $DBPG_USER_OSMTILEMAKER_USERNAME
 ```
 
 User postgres must be owner of your `$TILES_DIR`
@@ -181,7 +181,7 @@ Running next command, you may notice some warnings like "warning: unable to find
 
 ```bash
 nohup sudo -u postgres \
-python $DOCKERPATH_SOURCE_DIR/scripts/gen-tile.py \
+python3 $DOCKERPATH_SOURCE_DIR/scripts/gen-tile.py \
 --bbox $BBOX \
 --bbox_name $BBOX_NAME \
 --mapfile $DOCKERPATH_WORKING_DIR/openstreetmap-carto/osm.xml \

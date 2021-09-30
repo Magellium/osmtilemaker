@@ -1,4 +1,4 @@
-FROM postgres:10
+FROM postgres:13-bullseye
 
 ###
 # Set WORKDIR
@@ -12,8 +12,12 @@ WORKDIR $INSTALLWORKDIR
 # Environment variables
 ###
 
-ENV POSTGIS_VERSION 2.5
-ENV OSM2PGSQL_VERSION 1.2.0
+ENV POSTGIS_VERSION 3
+ENV OSM2PGSQL_VERSION 1.5.1
+ENV OPENSTREETMAP_CARTO_VERSION 5.4.0
+ENV MAPNIK_VERSION 3.1
+ENV NODEJS_VERSION 16.x
+ENV PSYCOPG2_VERSION 2.9.1
 
 ###
 # Install dependencies
@@ -37,9 +41,13 @@ RUN \
     postgresql-${PG_MAJOR}-postgis-${POSTGIS_VERSION}-scripts \
     # mapnik
     libboost-all-dev \
-    libmapnik-dev \
-    python-mapnik \
+    libmapnik${MAPNIK_VERSION} \
+    python3-mapnik \
     mapnik-utils \
+    # openstreetmap-carto
+    python3-pip \
+    python3-setuptools \
+    gdal-bin \
     # fonts
     fontconfig \
     ttf-unifont \
@@ -48,6 +56,11 @@ RUN \
     fonts-noto-unhinted \
     # then clean
     && rm -rf /var/lib/apt/lists/*
+
+# openstreetmap-carto python libraries
+RUN \
+    pip3 install pyyaml requests wheel && \
+    pip3 install -Iv psycopg2==${PSYCOPG2_VERSION}
 
 ###
 # Install osm2pgsql
@@ -62,7 +75,7 @@ RUN wget https://github.com/openstreetmap/osm2pgsql/archive/${OSM2PGSQL_VERSION}
 # Install carto
 ###
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION} | bash - && \
     apt-get install -y --no-install-recommends \
     nodejs \
     # then clean
@@ -91,7 +104,7 @@ RUN fc-cache
 RUN \
     git clone https://github.com/gravitystorm/openstreetmap-carto && \
     cd openstreetmap-carto && \
-    git checkout v5.1.0
+    git checkout v${OPENSTREETMAP_CARTO_VERSION}
 
 ###
 # Clean
