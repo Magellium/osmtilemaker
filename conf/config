@@ -15,7 +15,7 @@ DOCKER_NAME_SUFFIX=_v${VERSION}
 DOCKER_NAME=osmtilemaker${DOCKER_NAME_SUFFIX}
 DOCKER_HOST_PORT_TO_PUBLISH=5435
 
-# HOST/DOCKER SHARED VOLUMES 
+# HOST/DOCKER SHARED VOLUMES
 ############################
 
 # SOME SHARED VOLUMES NAMES
@@ -70,13 +70,13 @@ OSM2PGSQL_OPTS="\
 # RENDERING CONFIG
 ###############
 
-RENDERING_THREADS=12 
+RENDERING_THREADS=10
 
 ## ZOOMS (FROM 1 TO 18)
 MINZOOM=1
 MAXZOOM=10
 
-## BBOX 
+## BBOX
 # - you can get your bbox limits graphically from http://tools.geofabrik.de/calc/ or http://harrywood.co.uk/maps/uixapi/xapi.html
 # - you can estimate number and size of generated tiles thanks to http://tools.geofabrik.de/calc/
 
