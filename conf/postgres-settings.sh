@@ -9,10 +9,11 @@ echo ------------------------------------------------------
 echo Set PGSQL settings
 echo
 
-# postgres settings (compatible with postgres 10): 
+# postgres settings (compatible with postgres 10):
 # - uncomment and set wanted parameters
 # - [help] the command `sed -i -e"s/^shared_buffers = 128MB.*$/shared_buffers = 4GB/" ${PGDATA}/postgresql.conf`
 #   will update "shared_buffers" parameter from "128MB" (default) to "4GB" in postgresql.conf file
+# the recommended settings are taken from here: https://osm2pgsql.org/doc/manual.html#preparing-the-database
 
 set -x # Print commands and their arguments as they are executed
 sed -i -e"s/^max_connections = 100.*$/max_connections = 200/" ${PGDATA}/postgresql.conf
